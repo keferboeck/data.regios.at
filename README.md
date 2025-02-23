@@ -13,7 +13,7 @@ This repository contains all **data science code and statistical models** for an
 ## How to Use
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/regios-data-science.git
+   git clone https://github.com/keferboeck/data.regios.at
    ```
 2. Install required dependencies:
    ```bash
