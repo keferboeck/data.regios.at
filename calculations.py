@@ -64,11 +64,11 @@ def calculate_target_audience(
 
     # Output results
     results = {
-        "Sarah_Effective_Reach": effective_sarah_reach,
-        "Non_Sarah_Effective_Reach": effective_non_sarah_reach,
-        "Sarah_Effective_Reach_Higher_Ed": effective_sarah_reach_higher_ed,
-        "Non_Sarah_Effective_Reach_Higher_Ed": effective_non_sarah_reach_higher_ed,
-        "Margin_of_Error": combined_margin_of_error
+        "Sarah_Effective_Reach": round(effective_sarah_reach),
+        "Non_Sarah_Effective_Reach": round(effective_non_sarah_reach),
+        "Sarah_Effective_Reach_Higher_Ed": round(effective_sarah_reach_higher_ed),
+        "Non_Sarah_Effective_Reach_Higher_Ed": round(effective_non_sarah_reach_higher_ed),
+        "Margin_of_Error": round(combined_margin_of_error, 2)
     }
 
     return results
@@ -82,14 +82,38 @@ def calculate_budget(
 
     for platform, (cpm_min, cpm_max) in cpm_ranges.items():
         for audience, size in adjusted_target_audience_splits.items():
-            min_budget = (size * ad_frequency_per_month / 1000) * cpm_min
-            expected_budget = (size * ad_frequency_per_month / 1000) * ((cpm_min + cpm_max) / 2)
-            max_budget = (size * ad_frequency_per_month / 1000) * cpm_max
+            min_budget = round((size * ad_frequency_per_month / 1000) * cpm_min)
+            expected_budget = round((size * ad_frequency_per_month / 1000) * ((cpm_min + cpm_max) / 2))
+            max_budget = round((size * ad_frequency_per_month / 1000) * cpm_max)
             monthly_budget_summary[f"{platform} - {audience}"] = (min_budget, expected_budget, max_budget)
 
     return monthly_budget_summary
 
 
+def calculate_retargeting_budget(
+        adjusted_target_audience_splits, cpm_values, ad_frequency_per_month, interest_levels
+):
+    """Calculates the retargeting budget for different interest scenarios."""
+    retargeting_budget_summary = {}
+
+    for level in interest_levels:
+        retargeting_budget_summary[level] = {}
+        for platform, avg_cpm in cpm_values.items():
+            for audience, size in adjusted_target_audience_splits.items():
+                adjusted_size = size * level
+                budget = round((adjusted_size * ad_frequency_per_month / 1000) * avg_cpm)
+                retargeting_budget_summary[level][f"{platform} - {audience}"] = budget
+
+    return retargeting_budget_summary
+
+
+# Placeholder function for Google Looker API connection
+def connect_to_looker(api_key, api_secret):
+    """Sets up a connection to Google Looker API. User must provide API credentials."""
+    print("Google Looker API connection is not yet active. Add your credentials to enable it.")
+    return None
+
+
 if __name__ == "__main__":
-    print("This script contains functions for audience estimation and budget calculation.")
-    print("Import and use them in your main.py to execute calculations.")
+    print("This script contains functions for audience estimation, budget calculation, and retargeting analysis.")
+    print("It also includes a Google Looker API placeholder for future data integration.")
