@@ -117,3 +117,26 @@ def connect_to_looker(api_key, api_secret):
 if __name__ == "__main__":
     print("This script contains functions for audience estimation, budget calculation, and retargeting analysis.")
     print("It also includes a Google Looker API placeholder for future data integration.")
+
+def calculate_cpm_budget(audience_size, impressions_per_user, cpm):
+    """Calculates total budget required for CPM-based advertising."""
+    total_impressions = audience_size * impressions_per_user
+    budget = (total_impressions / 1000) * cpm
+    return round(budget, 2)
+
+def calculate_cpc_budget(estimated_clicks, cpc):
+    """Calculates total budget required for CPC-based advertising."""
+    budget = estimated_clicks * cpc
+    return round(budget, 2)
+
+def calculate_revenue(traffic, conversion_rate, avg_order_value):
+    """Calculates estimated revenue based on traffic, conversion rate, and order value."""
+    conversions = traffic * conversion_rate
+    revenue = conversions * avg_order_value
+    return round(revenue, 2)
+
+def calculate_roas(revenue, ad_spend):
+    """Calculates the Return on Ad Spend (ROAS)."""
+    if ad_spend == 0:
+        return 0
+    return round(revenue / ad_spend, 2)
